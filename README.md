@@ -8,11 +8,11 @@ Mancanze da inserire:
 
 
 Per far funzionare il progetto bisogna installare tesseract e impostare le seguenti variabili con il .env:
-SECRET_KEY="secret key"
-SQLALCHEMY_DATABASE_URI="sqlite:///storage.db"
-TESSERACT_CMD_PATH="C:\Users\gioele.cappellari\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
-UPLOAD_IMAGES_PATH="./uploads/originals"
-UPLOAD_PROCESSED_IMAGES_PATH="./uploads/processed"
+- SECRET_KEY="FE6B1B9F873F169B3627E76E55952"
+- SQLALCHEMY_DATABASE_URI="sqlite:///storage.db"
+- TESSERACT_CMD_PATH="C:\Users\gioele.cappellari\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
+- UPLOAD_IMAGES_PATH="./uploads/originals"
+- UPLOAD_PROCESSED_IMAGES_PATH="./uploads/processed"
 
 
-Per far funzionare il progetto, bisogna creare il db con: flask upgrade
+Per far funzionare il progetto, bisogna creare il db con: flask db upgrade
