@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Accedi{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="card shadow-lg" style="width: 400px; border-radius: 15px;">
+        <div class="card-body p-4">
+            <h3 class="text-center mb-4">Accedi</h3>
+            <form action="/auth/login" method="POST">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                </div>
+                <div class="mb-3">
+                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                    <label for="remember" class="form-label">Ricorda credenziali</label>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg">Accedi</button>
+                </div>
+            </form>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <br>
+                    <div class="alert alert-danger" role="alert">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <div class="text-center mt-3">
+                <p>Non possiedi un account? <a href="{{ url_for('auth.signup') }}">Registrati</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

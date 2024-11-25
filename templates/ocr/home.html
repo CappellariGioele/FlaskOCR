@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header text-center mb-4">
+                    <h2>OCR</h2>
+                </div>
+                <div class="card-body">
+                    <form id="uploadForm" method="POST" action="#" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="fileInput" class="form-label">Carica il file</label>
+                            <input type="file" class="form-control" id="fileInput" name="image" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Seleziona il tipo di testo presente nell'immagine:</label>
+                            <select class="form-select" id="methodSelect" name="method" required>
+                                <option value="sparse">Testo sparso</option>
+                                <option value="block">Blocco di testo</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Modalità di output:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="outputType" id="textOnly" value="text" required>
+                                <label class="form-check-label" for="textOnly">Solo testo</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="outputType" id="processImage" value="image+text" required>
+                                <label class="form-check-label" for="processImage">Immagine processata + testo</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text me-2" viewBox="0 0 16 16">
+                                <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+                                <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                            </svg>Esegui OCR
+                        </button>
+                    </form>
+                    <div id="responseError" class="mt-3 alert alert-danger d-none" role="alert"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('uploadForm');
+    const errorAlert = document.getElementById("responseError");
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const fileInput = document.getElementById('fileInput').files[0];
+        const method = document.getElementById('methodSelect').value;
+        const outputType = document.querySelector('input[name="outputType"]:checked').value;
+        const url = outputType === "text" ? "{{url_for('ocr.get_text')}}" : "{{url_for('ocr.get_processed_image')}}";
+
+        const formData = new FormData();
+        formData.append('image', fileInput);
+        formData.append('method', method);
+
+        console.log("API KEY: ", getCookie("api_key"))
+
+        const response = await fetch(`${url}?method=${method}`, {
+            method: 'POST',
+            headers: {
+                'X-API-KEY': getCookie("api_key")
+            },
+            body: formData,
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            window.location.href = result.result_url;
+        } else {
+            errorAlert.innerText = result.error;
+            errorAlert.classList.remove("d-none");
+        }
+    });
+
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+</script>
+{% endblock %}

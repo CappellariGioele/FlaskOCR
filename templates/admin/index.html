@@ -1,0 +1,25 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+<div class="container mt-4">
+    <h2>Routes sito</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Route</th>
+                <th>Method</th>
+                <th>Defaults</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for route in routes %}
+            <tr>
+                <td>{{ route.route }}</td>
+                <td>{{ route.method }}</td>
+                <td>{{ route.defaults if route.defaults else 'None' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
