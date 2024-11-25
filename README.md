@@ -8,9 +8,9 @@ Mancanze da inserire:
 
 
 Per far funzionare il progetto bisogna installare tesseract e impostare le seguenti variabili con il .env:
-- SECRET_KEY="FE6B1B9F873F169B3627E76E55952"
+- SECRET_KEY="secret"
 - SQLALCHEMY_DATABASE_URI="sqlite:///storage.db"
-- TESSERACT_CMD_PATH="C:\Users\gioele.cappellari\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
+- TESSERACT_CMD_PATH="path"
 - UPLOAD_IMAGES_PATH="./uploads/originals"
 - UPLOAD_PROCESSED_IMAGES_PATH="./uploads/processed"
 
